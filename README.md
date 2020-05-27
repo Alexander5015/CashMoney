@@ -1,2 +1,2 @@
 # CashMoney
-I/O Hack
+I/O Hackathon
