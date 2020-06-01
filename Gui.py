@@ -1,9 +1,3 @@
-'''
-Name: CDT Gui
-Author: Chak Ho Huang
-Date:
-'''
-
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QGridLayout, QLabel, QLineEdit, QStyleFactory, QWidget,QVBoxLayout,QStackedWidget
 from PyQt5 import QtGui
 from PyQt5 import QtCore
@@ -34,6 +28,7 @@ win.setCentralWidget(stack)
 stack.addWidget(mwidget)
 
 async def request(message_out):
+    #Requesting information from the server
     global msg
     reader, writer = await asyncio.open_connection(
         IPADDR, PORT)
@@ -55,14 +50,18 @@ async def request(message_out):
 
 #Functions
 def switch(stack,index,t):
+    #switch windows
     global focus
     stack.setCurrentIndex(index)
     focus = t
+
 def changeTooltip(text,tt):
+    #change safety level
     tt.setToolTip(text)
 
 def send(text,location):
     global msg
+    #different request packets
     packet = {
         'mode': 'record',
         'payload': {
@@ -138,7 +137,7 @@ for i,x in enumerate(pts):
         b.setAttribute(QtCore.Qt.WA_AlwaysShowToolTips)
         b.setToolTip('No Entries')
         
-#info
+#infowindow
 infoL = QVBoxLayout()
 back = QPushButton("Back")
 
@@ -160,9 +159,10 @@ infoL.setSpacing(30)
 infow = QWidget()
 infow.setLayout(infoL)
 stack.addWidget(infow)
+
+#clicked events
 back.clicked.connect(lambda: switch(stack,0,None))
 submit.clicked.connect(lambda: send(text.text(),focus))
-
 buttons['Grocery store'].clicked.connect(lambda: switch(stack,1,'Grocery store'))
 buttons['Gym'].clicked.connect(lambda: switch(stack,1,'Gym'))
 buttons['Store'].clicked.connect(lambda: switch(stack,1,'Store'))
