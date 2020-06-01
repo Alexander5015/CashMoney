@@ -143,9 +143,12 @@ async def handle_client(reader, writer): #MISSING KEYS ARE NOT HANDLED
         
 
 async def main():
+    #open our sql database
     async with aiosqlite.connect(DATABASE) as db:
         async with db.cursor() as c:
-
+            
+            #create our the database tables that will hold records that people submit
+            #this table will store the list of facilities/places
             await c.execute("""CREATE TABLE IF NOT EXISTS Facilities (
                             name TEXT,
                             area INTEGER,
@@ -198,5 +201,7 @@ async def main():
     async with server:
         await server.serve_forever()
 
-asyncio.run(main(), debug=True)
+#warning this program does not have solid error handling and asynchronization. Connections that time out could potentially cause issues.
+asyncio.run(main(), debug=True) #Run entry point
+
     
