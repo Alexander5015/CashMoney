@@ -94,7 +94,7 @@ def send(text,location):
     # decode msg
     values = list()
     for x in msg:
-        if x['locid'] == location and (math.floor(time.time()) - x['unixtime']) < 1800:
+        if x['locid'] == location:
             values.append(x['pollres'])
     asyncio.run(request(table_2))
     for x in msg:
@@ -106,7 +106,6 @@ def send(text,location):
         ans = values[0]
     else:
         ans = None
-
     if ans != None:
         if area // ans <= 5:
             changeTooltip('Safe',buttons[location])
@@ -117,7 +116,7 @@ def send(text,location):
 #map layout
 mapL = QGridLayout()
 pts = [
-    'Grocery store', ' ', 'Gym', ' ',
+    'Washroom', ' ', 'Gym', ' ',
     ' ', "Store", ' ', ' ',
     ' ', ' ', 'Park', 'Restaurant'
 ]
@@ -163,7 +162,7 @@ stack.addWidget(infow)
 #clicked events
 back.clicked.connect(lambda: switch(stack,0,None))
 submit.clicked.connect(lambda: send(text.text(),focus))
-buttons['Grocery store'].clicked.connect(lambda: switch(stack,1,'Grocery store'))
+buttons['Washroom'].clicked.connect(lambda: switch(stack,1,'Washroom'))
 buttons['Gym'].clicked.connect(lambda: switch(stack,1,'Gym'))
 buttons['Store'].clicked.connect(lambda: switch(stack,1,'Store'))
 buttons['Park'].clicked.connect(lambda: switch(stack,1,'Park'))
