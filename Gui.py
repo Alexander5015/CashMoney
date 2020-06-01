@@ -107,7 +107,9 @@ def send(text,location):
     else:
         ans = None
     if ans != None:
-        if area // ans <= 5:
+        if area < ans:
+            changeTooltip('Risky',buttons[location])
+        elif area // ans <= 5:
             changeTooltip('Safe',buttons[location])
         else:
             changeTooltip('Risky',buttons[location])
