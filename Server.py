@@ -24,9 +24,9 @@ async def handle_client(reader, writer): #MISSING KEYS ARE NOT HANDLED
 
             try:
                 rid = await c.fetchone()
-                rid = rid[0] #BUG: rid becomes none when there is no auth. none can't be subscripted!!!!!
+                rid = rid[0] 
                 
-            except IndexError: #This will be frustrating for clients
+            except IndexError: 
                 message_out = "-----------ZERO-LENGTH: MISSING USER/TOKEN---------------"
                 
             except TypeError:
@@ -40,7 +40,7 @@ async def handle_client(reader, writer): #MISSING KEYS ARE NOT HANDLED
                     
                     try:
                         fid = await c.fetchone()
-                        fid = fid[0] #BUG: fid becomes none when there is no auth. none can't be subscripted!!!!!
+                        fid = fid[0] 
                          
                     except IndexError:
                         message_out = "-----------ZERO-LENGTH: MISSING FACILITY---------------"
@@ -67,7 +67,7 @@ async def handle_client(reader, writer): #MISSING KEYS ARE NOT HANDLED
                     if message['payload'] in range (4):
                         if message['payload'] == 0:
                             tempsql = "SELECT rowid,* FROM Facilities"
-                            keys = ['id', 'name', 'area'] #############################################################################################################Change this when change table
+                            keys = ['id', 'name', 'area'] 
                             
                         elif message['payload'] == 1:
                             tempsql = "SELECT rowid,* FROM Users"
@@ -112,21 +112,6 @@ async def handle_client(reader, writer): #MISSING KEYS ARE NOT HANDLED
                 
 
             await db.commit()
-
-            """
-            if message['command'] == "write":
-                await c.executemany("INSERT INTO Facilities (name, area) VALUES (:name, :area)", [message['payload']])
-                await db.commit()
-                message_out = "probably wrote something"
-                ##-----------------------------------------------------------------------------SQL
-            elif message['command'] == "read":
-                await c.execute("SELECT * FROM Facilities")
-                message_out = await c.fetchall()
-            elif message['command'] == "clear":
-                await c.execute("DELETE FROM Facilities")
-                await db.commit()
-                message_out = "table probably truncated"
-            """
     
     #Some Calculator Here
     await asyncio.sleep(1)
@@ -202,6 +187,6 @@ async def main():
         await server.serve_forever()
 
 #warning this program does not have solid error handling and asynchronization. Connections that time out could potentially cause issues.
-asyncio.run(main(), debug=True) #Run entry point
+asyncio.run(main(), debug=True)
 
     
